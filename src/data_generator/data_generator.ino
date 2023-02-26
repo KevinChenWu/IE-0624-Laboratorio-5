@@ -8,8 +8,8 @@ volatile int num_sample = max_samples;
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
-  while(!Serial);
   IMU.begin();
+  while(!Serial);
   Serial.println("timestamp,aX,aY,aZ,gX,gY,gZ");
 }
 
