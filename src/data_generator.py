@@ -14,7 +14,7 @@ ser = serial.Serial(
 file = sys.argv[1]
 
 f = open(file, "w+")
-f.write("timestamp,aX,aY,aZ,gX,gY,gZ\n")
+f.write("gX,gY,gZ\n")
 
 print("Connected to: " + ser.portstr)
 line = []
@@ -26,7 +26,7 @@ while True:
 		if c == "\n":
 			print("Line: " + "".join(line))
 			print(len(line))
-			if len(line) >= 45 and len(line) <= 63:
+			if len(line) >= 22 and len(line) <= 34:
 				string = "".join(line)
 				f.write(string)
 			line=[]
