@@ -31,10 +31,6 @@ void setup() {
   Serial.begin(9600);
   IMU.begin();
   while(!Serial);
-  Serial.print("Gyroscope sample rate = ");
-  Serial.print(IMU.gyroscopeSampleRate());
-  Serial.println(" Hz");
-  Serial.println();
 
   tflModel = tflite::GetModel(model);
   if (tflModel->version() != TFLITE_SCHEMA_VERSION) {
@@ -50,6 +46,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   float aX, aY, aZ, gX, gY, gZ;
+  int g = 0;
   while (num_sample == max_samples) {
     if (IMU.accelerationAvailable()) {
       IMU.readAcceleration(aX, aY, aZ);
@@ -77,11 +74,16 @@ void loop() {
         }
 
         for (int i = 0; i < NUM_GESTURES; i++) {
-          Serial.print(GESTURES[i]);
-          Serial.print(": ");
-          Serial.println(tflOutputTensor->data.f[i], 4);
+          Serial.print(tflOutputTensor->data.f[i], 4);
+          Serial.print(",");
         }
-        Serial.println();
+        for (int i = 1; i < NUM_GESTURES; i++) {
+          if (tflOutputTensor->data.f[g] < tflOutputTensor->data.f[i]) {
+            g = i;
+          }
+        }
+        Serial.println(GESTURES[g]);
+        delay(100);
       }
     }
   }
