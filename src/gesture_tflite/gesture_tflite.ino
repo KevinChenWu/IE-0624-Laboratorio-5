@@ -20,7 +20,7 @@ byte tensorArena[tensorArenaSize] __attribute__((aligned(16)));
 
 const char* GESTURES[] = {
   "punch",
-  "flex",
+  "like",
   "circle"
 };
 
